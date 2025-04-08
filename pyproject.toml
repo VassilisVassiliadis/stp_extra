@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true # This is on by default, including it for clarity
+
+[tool.setuptools_scm]
+root = "."
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+
+[project]
+name="sfttrainer"
+description="A actuator for benchmarking foundation model fine-tuning" # Change to describing your actuator
+dependencies=[
+    "st4sd-runtime-core>=2.5.1",
+]
+dynamic = ["version"]
+
+
+[project.scripts]
+stp_extra = "stp_commands.stp_extra:app"

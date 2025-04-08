@@ -1,11 +1,13 @@
+# Copyright IBM Inc. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Author: Vassilis Vassiliadis
+
 from experiment.cli.configuration import Configuration
 import stp_commands.exp
 
-from typing import Optional
-from pathlib import Path
 import typer
 from rich.console import Console
-import experiment.cli.api
 
 stderr = Console(stderr=True)
 stdout = Console()
@@ -23,33 +25,12 @@ app = typer.Typer(
 @app.callback()
 def common_options(
     ctx: typer.Context,
-    settings_file: Optional[Path] = typer.Option(
-        None,
-        help=f"Path to the {experiment.cli.configuration.DEFAULT_SETTINGS_FILE_NAME} file",
-        envvar="STP_SETTINGS_FILE",
-        exists=True,
-        readable=True,
-        resolve_path=True,
-        show_default=False,
-    ),
-    contexts_file: Optional[Path] = typer.Option(
-        None,
-        help=f"Path to the {experiment.cli.configuration.DEFAULT_CONTEXTS_FILE_NAME} file",
-        envvar="STP_CONTEXTS_FILE",
-        exists=True,
-        readable=True,
-        resolve_path=True,
-        show_default=False,
-    ),
-    verbose: bool = typer.Option(False, "-v", "--verbose", help="Use verbose output"),
 ):
-    # Use the context to store the configuration
-    ctx.obj = Configuration(settings_file, contexts_file, verbose)
+    ctx.obj = Configuration(None, None, False)
 
 
-# Add subcommands from different file
 app.add_typer(
-    stp_commands.exp.app, name="experiment", help="List, decribe, run experiments"
+    stp_commands.exp.app, name="experiment", help="List, describe, run experiments"
 )
 
 
